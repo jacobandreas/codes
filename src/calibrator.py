@@ -1,3 +1,4 @@
+from __future__ import print_function
 from tasks.ref import RefTask
 import trainer
 
@@ -58,6 +59,6 @@ def run(task, rollout_ph, model, desc_model, lexicographer, session, config):
     logging.info("")
 
     with open(config.experiment_dir + "/calibrate.txt", "w") as cal_f:
-        print >>cal_f, "speaker agreement", speaker_agree
-        print >>cal_f, "actor agreement", actor_agree
-        print >>cal_f, "count", count
+        print("speaker agreement {}".format(speaker_agree), file=cal_f)
+        print("actor agreement {}".format(actor_agree), file=cal_f)
+        print("count {}".format(count), file=cal_f)
