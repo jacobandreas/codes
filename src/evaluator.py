@@ -1,3 +1,4 @@
+from __future__ import print_function
 from experience import Experience
 from tasks.ref import RefTask
 import trainer
@@ -150,9 +151,8 @@ def run(task, rollout_ph, replay_ph, reconst_ph, model, desc_model,
             l_l_score += score
         l_l_score /= count
         logging.info("[l,l]  \t%s" % str(l_l_score))
-        print >>eval_f, "l only:"
-        print >>eval_f, l_l_score
-
+        print("l only:", file=eval_f)
+        print(l_l_score, file=eval_f)
         task.reset_test()
         c_c_score = np.asarray([0., 0.])
         for i in range(count):
@@ -163,12 +163,10 @@ def run(task, rollout_ph, replay_ph, reconst_ph, model, desc_model,
         c_c_score /= count
         logging.info("[c,c]  \t%s" % str(c_c_score))
         logging.info("")
-        print >>eval_f, "c only:"
-        print >>eval_f, c_c_score
-
+        print("c only:", file=eval_f)
+        print(c_c_score, file=eval_f)
         for mode in ["fkl", "rkl", "pmi", "dot", "rand"]:
-            print >>eval_f, mode + ":"
-
+            print(mode + ":", file=eval_f)
             task.reset_test()
             c_l_score = np.asarray([0., 0.])
             for i in range(count):
@@ -182,7 +180,7 @@ def run(task, rollout_ph, replay_ph, reconst_ph, model, desc_model,
                             session, config, h0, z0, fold, mode)
                 c_l_score += score
             c_l_score /= count
-            print >>eval_f, "(c, l)", c_l_score
+            print("(c, l)", c_l_score, file=eval_f)
             logging.info("[c,l:%s]  \t%s" % (mode, str(c_l_score)))
 
             if isinstance(task, RefTask):
@@ -194,7 +192,7 @@ def run(task, rollout_ph, replay_ph, reconst_ph, model, desc_model,
                             lexicographer.c_to_l, session, config, h0, z0, fold, mode)
                     l_c_score += score
                 l_c_score /= count
-                print >>eval_f, "(l, c)", l_c_score
+                print("(l, c)", l_c_score, file=eval_f)
                 logging.info("[l,c:%s]  \t%s" % (mode, str(l_c_score)))
 
             logging.info("")
